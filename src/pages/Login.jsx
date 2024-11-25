@@ -19,6 +19,7 @@ const Login = () => {
               placeholder="email"
               className="input bg-[#F3F3F3] text-sm"
               required
+              name="email"
             />
           </div>
           {/* Password Input */}
@@ -31,6 +32,7 @@ const Login = () => {
               placeholder="password"
               className="input bg-[#F3F3F3] text-sm"
               required
+              name="password"
             />
             {/* Label Forget password */}
             <label className="label">

@@ -1,8 +1,11 @@
+import { useContext } from "react";
 import { CgProfile } from "react-icons/cg";
 import { Link, NavLink, useLocation } from "react-router-dom";
+import { AuthContext } from "../Providers/AuthProvider";
 
 const Navbar = () => {
   const { pathname } = useLocation();
+  const { user } = useContext(AuthContext);
   const links = (
     <>
       <li>
@@ -19,6 +22,7 @@ const Navbar = () => {
   return (
     <div className={`navbar ${pathname !== "/" ? "bg-transparent" : "bg-base-100"}`}>
       <div className="navbar-start">
+        <div>{user && user.emailAddress}</div>
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
             <svg

@@ -1,7 +1,8 @@
 import { CgProfile } from "react-icons/cg";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 
 const Navbar = () => {
+  const { pathname } = useLocation();
   const links = (
     <>
       <li>
@@ -16,7 +17,7 @@ const Navbar = () => {
     </>
   );
   return (
-    <div className="navbar bg-base-100">
+    <div className={`navbar ${pathname !== "/" ? "bg-transparent" : "bg-base-100"}`}>
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -50,7 +51,9 @@ const Navbar = () => {
         <Link to="">
           <CgProfile size={30} />
         </Link>
-        <Link className="bg-gray-900 text-white px-6 py-1">Login</Link>
+        <Link to="/auth/login" className="bg-gray-900 text-white px-6 py-1">
+          Login
+        </Link>
       </div>
     </div>
   );

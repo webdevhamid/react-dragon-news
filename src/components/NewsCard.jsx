@@ -1,10 +1,11 @@
 import { BsBookmark, BsShare } from "react-icons/bs";
 import { AiFillStar } from "react-icons/ai";
 import { BsEye } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 const NewsCard = (props = {}) => {
   const { news } = props || {};
-  const { author, title, details, image_url, rating, total_view } = news || {};
+  const { author, title, details, image_url, rating, total_view, _id } = news || {};
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -53,9 +54,12 @@ const NewsCard = (props = {}) => {
         <p className="text-gray-600 text-[15px] leading-relaxed mb-2">
           {truncateText(details, 45)}
         </p>
-        <button className="text-[#FF8B47] text-sm font-medium hover:text-[#ff7a2d] mb-4">
+        <Link
+          to={`/news/${_id}`}
+          className="text-[#FF8B47] text-sm font-medium hover:text-[#ff7a2d] mb-4"
+        >
           Read More
-        </button>
+        </Link>
       </div>
 
       {/* Footer */}

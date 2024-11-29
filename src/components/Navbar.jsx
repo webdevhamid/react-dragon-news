@@ -5,7 +5,7 @@ import { AuthContext } from "../Providers/AuthProvider";
 
 const Navbar = () => {
   const { pathname } = useLocation();
-  const { user } = useContext(AuthContext);
+  const { user, logOut } = useContext(AuthContext);
   const links = (
     <>
       <li>
@@ -17,12 +17,15 @@ const Navbar = () => {
       <li>
         <NavLink to="/career">Career</NavLink>
       </li>
+      <li>
+        <NavLink to="/contact">Contact Us</NavLink>
+      </li>
     </>
   );
   return (
     <div className={`navbar ${pathname !== "/" ? "bg-transparent" : "bg-base-100"}`}>
       <div className="navbar-start">
-        <div>{user && user.emailAddress}</div>
+        <div>{user && user.email}</div>
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
             <svg
@@ -52,12 +55,23 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
       <div className="navbar-end gap-3">
-        <Link to="">
-          <CgProfile size={30} />
-        </Link>
-        <Link to="/auth/login" className="bg-gray-900 text-white px-6 py-1">
-          Login
-        </Link>
+        {user?.email ? (
+          <img className="w-10 rounded-full border-2 border-black" src={user.photoURL} alt="" />
+        ) : (
+          <Link>
+            <CgProfile size={30} />
+          </Link>
+        )}
+
+        {user && user?.email ? (
+          <Link to="/" className="bg-gray-900 text-white px-6 py-1" onClick={logOut}>
+            Logout
+          </Link>
+        ) : (
+          <Link to="/auth/login" className="bg-gray-900 text-white px-6 py-1">
+            Login
+          </Link>
+        )}
       </div>
     </div>
   );

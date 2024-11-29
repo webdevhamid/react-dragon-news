@@ -1,6 +1,35 @@
-import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { AuthContext } from "../Providers/AuthProvider";
 
 const Login = () => {
+  const { singInUser, setUser } = useContext(AuthContext);
+  const [error, setError] = useState({});
+  // console.log(error);
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // console.log(location);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    singInUser(email, password)
+      .then((credential) => {
+        const user = credential.user;
+        setUser(user);
+        navigate(location?.state ? location.state : "/");
+      })
+      .catch((err) => {
+        const errorCode = err.code;
+        setError({ ...error, login: errorCode });
+      });
+  };
   return (
     <div className="bg-base-200 flex flex-col min-h-[calc(100vh-68px)] justify-center items-center">
       <div className="card bg-base-100 w-10/12 max-w-xl rounded-none p-5">
@@ -8,7 +37,7 @@ const Login = () => {
           <h1 className="text-3xl font-semibold text-[#403F3F]">Login your account</h1>
         </div>
         <div className="divider"></div>
-        <form className="card-body">
+        <form className="card-body" onSubmit={handleSubmit}>
           {/* Email Input */}
           <div className="form-control">
             <label className="label">
@@ -34,6 +63,10 @@ const Login = () => {
               required
               name="password"
             />
+            {/* Error Message */}
+            <label className="label">
+              <p className="text-red-500">{error && error.login}</p>
+            </label>
             {/* Label Forget password */}
             <label className="label">
               <a href="#" className="label-text-alt link link-hover">
